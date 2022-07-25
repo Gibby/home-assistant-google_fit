@@ -67,9 +67,7 @@ HEARTRATE = 'heart rate'
 SCOPES = ['https://www.googleapis.com/auth/fitness.body.read',
     'https://www.googleapis.com/auth/fitness.body.write',
     'https://www.googleapis.com/auth/fitness.activity.read',
-    'https://www.googleapis.com/auth/fitness.location.read',
-    'https://www.googleapis.com/auth/fitness.sleep.read',
-    'https://www.googleapis.com/auth/fitness.heart_rate.read']
+    'https://www.googleapis.com/auth/fitness.location.read']
 
 def _today_dataset_start():
     today = datetime.today().date()
@@ -636,12 +634,12 @@ class GoogleFitSleepSensor(GoogleFitSensor):
             if int(point["activityType"]) == 72 :
                 starts.append(int(point["startTimeMillis"]))
                 ends.append(int(point["endTimeMillis"]))
-                if  point["name"].startswith('Deep'):   
+                if  point["name"].startswith('Deep'):
                     deep_sleep_start = datetime.fromtimestamp(int(point["startTimeMillis"]) / 1000)
                     deep_sleep_end = datetime.fromtimestamp(int(point["endTimeMillis"]) / 1000)
                     _LOGGER.debug("Deep Sleep dataset Total %s", (deep_sleep_end - deep_sleep_start))
                     deep_sleep.append(deep_sleep_end - deep_sleep_start)
-                elif  point["name"].startswith('Light'):        
+                elif  point["name"].startswith('Light'):
                     light_sleep_start = datetime.fromtimestamp(int(point["startTimeMillis"]) / 1000)
                     light_sleep_end = datetime.fromtimestamp(int(point["endTimeMillis"]) / 1000)
                     _LOGGER.debug("Light Sleep dataset Total %s", (light_sleep_end - light_sleep_start))
@@ -656,7 +654,7 @@ class GoogleFitSleepSensor(GoogleFitSensor):
             self._state = str(total_sleep)
             self._attributes = state_dict
             self._last_updated = time.time()
-        else:    
+        else:
             self._state = ""
             self._attributes = {}
             self._last_updated = time.time()
